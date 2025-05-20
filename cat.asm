@@ -17,14 +17,21 @@ done:
 _start:
     ; int3
     pop rbx
+    mov [input_counter], rbx
     pop rsi
-    dec rbx
-    cmp rbx, 0
+    dec byte [input_counter]
+    cmp byte [input_counter], 0
     jnz open_file
 
     mov r12, no_args_error_msg
     mov r13, no_args_error_msg_len
     jmp error
+
+main_loop:
+    dec byte [input_counter]
+    pop rsi
+    cmp byte [input_counter], 0
+    jz exit_success
 
 open_file:
     OPEN [rsp], O_RDONLY, 0
@@ -47,6 +54,11 @@ fstat_file:
 
     WRITE STDOUT, [contents], r12
 
+    CLOSE [fd]
+
+    jmp main_loop
+
+exit_success:
     EXIT EXIT_SUCCESS
 
 error:
@@ -69,4 +81,5 @@ section .bss
     fd: resq 1
     contents: resq 1
     stat_struct: resb 144
+    input_counter: resb 1
 
