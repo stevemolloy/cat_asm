@@ -25,7 +25,7 @@ _start:
 
     mov r12, no_args_error_msg
     mov r13, no_args_error_msg_len
-    jmp error
+    jmp exit_error
 
 main_loop:
     dec byte [input_counter]
@@ -39,7 +39,7 @@ open_file:
     jg fstat_file
     mov r12, file_not_found_error_msg
     mov r13, file_not_found_error_msg_len
-    jmp error
+    jmp exit_error
 
 fstat_file:
     mov [fd], rax
@@ -61,7 +61,7 @@ fstat_file:
 exit_success:
     EXIT EXIT_SUCCESS
 
-error:
+exit_error:
     WRITE STDERR, r12, r13
     EXIT EXIT_FAIL
 
