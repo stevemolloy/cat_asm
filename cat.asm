@@ -66,8 +66,6 @@ exit_error:
     EXIT EXIT_FAIL
 
 section .data
-    filename db "./cat.asm", 0
-
     file_not_found_error_msg db "ERROR: File not found", 10
     file_not_found_error_msg_len equ $-file_not_found_error_msg
 
