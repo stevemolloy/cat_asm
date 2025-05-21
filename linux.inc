@@ -4,6 +4,7 @@
 %define SYS_CLOSE 3
 %define SYS_FSTAT 5
 %define SYS_MMAP 9
+%define SYS_MUNMAP 11
 %define SYS_EXIT 60
 
 %define STDIN 0
@@ -48,6 +49,10 @@
 
 %macro MMAP 6
     syscall6 SYS_MMAP, %1, %2, %3, %4, %5, %6
+%endmacro
+
+%macro MUNMAP 2
+    syscall2 SYS_MUNMAP, %1, %2
 %endmacro
 
 %macro syscall1 2
