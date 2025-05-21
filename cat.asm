@@ -42,15 +42,21 @@ open_file:
     jmp exit_error
 
 fstat_file:
-    mov [fd], rax
+    mov r13, rax
 
-    FSTAT [fd], stat_struct
+    FSTAT r13, stat_struct
     mov r12, [stat_struct + ST_SIZE_OFFS]
 
     MMAP 0, r12, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0
-    mov [contents], rax
+    cmp rax, 0
+    jg read_file
+    mov r12, mmap_fail_error_msg
+    mov r13, mmap_fail_error_msg_len
+    jmp exit_error
 
-    READ [fd], [contents], r12
+read_file:
+    mov [contents], rax
+    READ r13, [contents], r12
 
     WRITE STDOUT, [contents], r12
 
@@ -74,11 +80,13 @@ section .data
     no_args_error_msg db "ERROR: No arguments were provided", 10
     no_args_error_msg_len equ $-no_args_error_msg
 
+    mmap_fail_error_msg db "ERROR: Could not allocate memory", 10
+    mmap_fail_error_msg_len equ $-mmap_fail_error_msg
+
     newline db 10
     newline_len equ $-newline
 
 section .bss
-    fd: resq 1
     contents: resq 1
     stat_struct: resb 144
     input_counter: resb 1
