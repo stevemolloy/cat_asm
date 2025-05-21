@@ -54,7 +54,9 @@ fstat_file:
 
     WRITE STDOUT, [contents], r12
 
-    CLOSE [fd]
+    MUNMAP contents, r12
+
+    CLOSE r13
 
     jmp main_loop
 
