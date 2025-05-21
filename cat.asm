@@ -1,8 +1,5 @@
 %include "linux.inc"
 
-section .text
-    global _start
-
 strlen:
     xor rax, rax
 loop:
@@ -13,6 +10,9 @@ loop:
     jmp loop
 done:
     ret
+
+section .text
+    global _start
 
 _start:
     ; int3
