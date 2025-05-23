@@ -12,16 +12,16 @@ This project produces something that is much more limited than the `cat` you pro
 That said, it is still fun to compare the speed of these executables.
 
 ```console
-$ time for n in $(seq 1 10000); do ./cat testfile.txt > /dev/null; done
-
-real    0m3.266s
-user    0m1.899s
-sys     0m1.611s
 $ time for n in $(seq 1 10000); do cat testfile.txt > /dev/null; done
 
-real    0m8.182s
-user    0m3.126s
-sys     0m5.085s
+real    0m7.739s
+user    0m2.941s
+sys     0m4.796s
+$ time for n in $(seq 1 10000); do ./cat testfile.txt > /dev/null; done
+
+real    0m2.755s
+user    0m1.726s
+sys     0m1.205s
 ```
 
 Note that the exeuctable produced by this project takes only 40% of the time taken by GNU `cat`.  As mentioned already, this is an apples-to-oranges comparison, but still a fun little observation.
